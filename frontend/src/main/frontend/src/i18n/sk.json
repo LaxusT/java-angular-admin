@@ -1,0 +1,10 @@
+{
+  "HELLO": "Ahoj",
+  "REGISTER": {
+    "FIRSTNAME" : "Krstné meno:",
+    "LASTNAME" : "Priezvisko",
+    "EMAIL" : "Použivateľské meno (email):",
+    "PASSWORD" : "Heslo:",
+    "PASSWORDREPEAT" : "Zopakujte heslo:"
+  }
+}

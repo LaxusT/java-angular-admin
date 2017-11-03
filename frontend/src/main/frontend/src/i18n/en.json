@@ -1,0 +1,10 @@
+{
+  "HELLO": "hello",
+  "REGISTER": {
+    "FIRSTNAME" : "First name:",
+    "LASTNAME" : "Last name:",
+    "EMAIL" : "User name (email):",
+    "PASSWORD" : "Password:",
+    "PASSWORDREPEAT" : "Password repeat:"
+  }
+}
