@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '../../node_modules/ng2-translate';
+import { TranslateService } from 'ng2-translate';
 
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `
+    <router-outlet></router-outlet>
+    <c-toast-box toastAnimation="fancy"></c-toast-box>
+  `
 })
 export class AppComponent {
   constructor(private translate:TranslateService){

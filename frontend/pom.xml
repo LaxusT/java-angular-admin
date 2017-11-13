@@ -9,7 +9,7 @@
 	<description>The ikariera frontend project</description>
 
 	<parent>
-		<groupId>sk.ikariera.project</groupId>
+		<groupId>zjx.admin.project</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
