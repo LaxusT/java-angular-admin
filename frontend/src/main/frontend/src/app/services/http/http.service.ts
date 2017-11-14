@@ -4,16 +4,21 @@ import {
 } from '@angular/http';
 import { Utils } from "./../../util/utils";
 
+import { environment } from './../../../environments/environment';
+
 /**
  * http服务
  */
 @Injectable()
 export class HttpService {
+    private domain : string = '';
 
-    constructor(private http: Http) {}
+    constructor(private http: Http) {
+        this.domain = environment.production ? '' : 'http://127.0.0.1:8080';
+    }
 
     public request(url: string, options: RequestOptionsArgs, success: Function, error: Function): any {
-        this.http.request(url, options).subscribe(res => {
+        this.http.request(this.domain + url, options).subscribe(res => {
             success(res.ok, res.json(), res);
         }, err => {
             //处理请求失败

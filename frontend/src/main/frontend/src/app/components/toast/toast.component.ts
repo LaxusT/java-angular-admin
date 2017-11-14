@@ -59,6 +59,7 @@ export class ToastComponent implements OnInit {
    */
   dismiss() {
     this.dismissed.emit();
+    this.config.callback &&  this.config.callback();
   }
 
   /**
@@ -67,6 +68,4 @@ export class ToastComponent implements OnInit {
   isDismissEnabled() {
     return this.config.isDismissable();
   }
-
-
 }

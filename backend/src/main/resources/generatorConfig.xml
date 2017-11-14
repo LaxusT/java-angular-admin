@@ -55,7 +55,7 @@
         <!-- <table tableName="pay_refund_log"></table> -->
         <!-- <table tableName="pay_order_log"></table> -->
         <!--<table tableName="test"></table>-->
-        <table tableName="movie_list"></table>
+        <table tableName="user"></table>
         <!--
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         -->

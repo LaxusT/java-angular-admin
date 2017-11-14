@@ -18,6 +18,7 @@ import { TranslateService } from 'ng2-translate';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  show: boolean = false;
 
   constructor(
     private router: Router, 
@@ -27,9 +28,8 @@ export class LoginComponent implements OnInit {
     private translate:TranslateService) {
       let userNameFc = new FormControl('sysadmin', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(15)]));
       let passwordFc = new FormControl('sysadmin', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(15)]));
-
       this.loginForm = this.formBuilder.group({
-        userName: userNameFc,
+        name: userNameFc,
         password: passwordFc
       });
   }
@@ -37,51 +37,69 @@ export class LoginComponent implements OnInit {
   /**
   * 初始化
   */
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   /**
    * 登录
    */
   login() {
-    console.info(this.loginForm);
     if (this.loginForm.valid) {
-      let that = this;
-      /*this.httpService.post("http://192.168.1.107:8080/cjhme/user/login.jhtml", {
-        userName: 'admin',
-        password: '123456'
-      }, function (successful, data, res) {
-        console.info(successful);
-        console.info(data);
-        console.info(res);
-        if (successful) {
-          const toastCfg = new ToastConfig(ToastType.SUCCESS, '', '百变小咖，登录成功!', 3000);
-          that.toastService.toast(toastCfg);
-          that.router.navigate(['/app/home']);
+      let registerPostData = {
+        name: null,
+        password: null
+      };
+      Object.assign(registerPostData, this.loginForm.value);
+      this.httpService.post("/v1/login", registerPostData, (successful, resData, res) => {
+        let {code, msg, data} = resData;
+        if(code === 200){
+          this.toastService.toast(new ToastConfig(
+            ToastType.SUCCESS, 
+            '', 
+            msg, 
+            2000, 
+            () => {
+              this.router.navigate(['/app/home']);
+            })
+          );
+        } else {
+          this.toastService.toast(new ToastConfig(ToastType.WARNING, '', msg, 2000));
         }
-      }, function (successful, msg, err) {
-         const toastCfg = new ToastConfig(ToastType.ERROR, '', msg, 3000);
-         that.toastService.toast(toastCfg);
-      });*/
-
-      this.httpService.get("http://127.0.0.1:8080/v1/movie/list?start=1&end=2", null, (successful, data, res) => {
-        console.log(successful);
-        console.log(data);
-        console.log(res)
       }, (errorful, msg, err) => {
-        console.log(errorful);
-        console.log(msg);
-        console.log(err);
+        this.toastService.toast(new ToastConfig(ToastType.ERROR, '', msg, 2000));
       })
-
-
-      // const toastCfg = new ToastConfig(ToastType.SUCCESS, '', '百变小咖，登录成功!', 2000);
-      // this.toastService.toast(toastCfg);
-      // this.router.navigate(['/app/home']);
-
     }
   }
 
+  /**
+   * 注册
+   */
+  register(){
+    if(!this.loginForm.valid){
+      return;
+    }
+    let registerPostData = {
+      name: null,
+      password: null
+    };
+    Object.assign(registerPostData, this.loginForm.value);
+    this.httpService.post('/v1/user', registerPostData, (successful, resData, res) => {
+      let {code, msg, data} = resData;
+      if(code === 200){
+        this.toastService.toast(new ToastConfig(
+          ToastType.SUCCESS, 
+          '', 
+          msg, 
+          2000, 
+          () => {
+            this.router.navigate(['/app/home']);
+          })
+        );
+      } else {
+        this.toastService.toast(new ToastConfig(ToastType.WARNING, '', msg, 2000));
+      }
+    }, (errorful, msg, err) => {
+      this.toastService.toast(new ToastConfig(ToastType.ERROR, '', msg, 2000));
+    })
+  }
 
 }

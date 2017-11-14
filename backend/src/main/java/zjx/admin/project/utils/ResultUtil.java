@@ -5,18 +5,14 @@ import zjx.admin.project.data.res.Response;
 import java.util.List;
 
 public class ResultUtil {
+
     /** 成功并且返回数据 */
-    public static Response success(Object object){
+    public static Response success(int code, String msg, Object object){
         Response result = new Response();
-        result.setCode(200);
-        result.setMsg("成功");
+        result.setCode(code);
+        result.setMsg(msg);
         result.setData(object);
         return result;
-    }
-
-    /** 成功并且不需要返回数据 */
-    public static Response success(){
-        return success(null);
     }
 
     /** 失败 */

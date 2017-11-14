@@ -1,18 +1,11 @@
 package zjx.admin.project.controller;
 
-import org.hibernate.annotations.GeneratorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import zjx.admin.project.dao.mapper.MovieListMapper;
-import zjx.admin.project.dao.model.MovieList;
-import zjx.admin.project.dao.model.MovieListExample;
 
 import zjx.admin.project.utils.ResultUtil;
-
-import java.util.List;
-import java.util.ArrayList;
-
 import zjx.admin.project.data.res.Response;
+import zjx.admin.project.services.MovieService;
 
 /**
  * Created by michal on 5.3.2017.
@@ -22,18 +15,14 @@ import zjx.admin.project.data.res.Response;
 public class MovieController {
 
     @Autowired
-    private MovieListMapper movieListMapper;
+    private MovieService movieService;
 
     @GetMapping(value = "/movie/list")
-    public Response registerUser(
+    public Object registerUser(
             @RequestParam(value = "start", required = false, defaultValue = "0") String start,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") String pageSize){
-        int startPage = Integer.parseInt(start) * Integer.parseInt(pageSize);
-        MovieListExample movieListExample = new MovieListExample();
-        movieListExample.page(startPage, Integer.parseInt(pageSize));
-        List<MovieList> movieLists = movieListMapper.selectByExample(movieListExample);
-//        return movieLists;
-        return ResultUtil.success(movieListMapper.selectByExample(movieListExample));
+        int startPage = ((Integer.parseInt(start) <= 0 ) ? 0 : Integer.parseInt(start) - 1) * Integer.parseInt(pageSize);
+        return ResultUtil.success(200, "成功",movieService.getList(startPage, Integer.parseInt(pageSize)));
     }
 
 

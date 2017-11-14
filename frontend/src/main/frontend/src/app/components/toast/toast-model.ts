@@ -14,15 +14,23 @@ export class ToastConfig {
    text: string;
    textStrong: string;
    autoDismissTime: number;
+   callback: any;
    dismissable: boolean;
 
 
-  constructor(toastType: ToastType, textStrong: string = '', text: string = '', autoDismissTime = 0, dismissable = true) {
-    this.toastType = toastType;
-    this.text = text;
-    this.textStrong = textStrong;
-    this.autoDismissTime = autoDismissTime;
-    this.dismissable = dismissable;
+  constructor(
+    toastType: ToastType, 
+    textStrong: string = '', 
+    text: string = '', 
+    autoDismissTime = 0, 
+    callback: any = null,
+    dismissable = true) {
+      this.toastType = toastType;
+      this.text = text;
+      this.textStrong = textStrong;
+      this.autoDismissTime = autoDismissTime;
+      this.callback = callback;
+      this.dismissable = dismissable;
   }
 
   getToastType(): ToastType {
@@ -39,6 +47,10 @@ export class ToastConfig {
 
   getAutoDismissTime(): number {
     return this.autoDismissTime;
+  }
+
+  getCallback(): any {
+    return this.callback;
   }
 
   getDismissable(): boolean {
