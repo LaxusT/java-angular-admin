@@ -8,7 +8,7 @@ import zjx.admin.project.data.res.Response;
 import zjx.admin.project.services.MovieService;
 
 /**
- * Created by michal on 5.3.2017.
+ * Created by zhaojinxin on 11.1.2017.
  */
 @RestController
 @RequestMapping("/v1")

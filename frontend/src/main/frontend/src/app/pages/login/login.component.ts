@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+// import { Http }  from '@angular/http';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 import { HttpService } from './../../services/http/http.service';
@@ -67,6 +68,10 @@ export class LoginComponent implements OnInit {
       }, (errorful, msg, err) => {
         this.toastService.toast(new ToastConfig(ToastType.ERROR, '', msg, 2000));
       })
+
+      // this.httpService.get('http://127.0.0.1:8033/8a15fbb94471050bb46f/test', null, (successful, resData, res) => {
+      //   console.log(resData)
+      // })
     }
   }
 
@@ -82,24 +87,24 @@ export class LoginComponent implements OnInit {
       password: null
     };
     Object.assign(registerPostData, this.loginForm.value);
-    this.httpService.post('/v1/user', registerPostData, (successful, resData, res) => {
-      let {code, msg, data} = resData;
-      if(code === 200){
-        this.toastService.toast(new ToastConfig(
-          ToastType.SUCCESS, 
-          '', 
-          msg, 
-          2000, 
-          () => {
-            this.router.navigate(['/app/home']);
-          })
-        );
-      } else {
-        this.toastService.toast(new ToastConfig(ToastType.WARNING, '', msg, 2000));
-      }
-    }, (errorful, msg, err) => {
-      this.toastService.toast(new ToastConfig(ToastType.ERROR, '', msg, 2000));
-    })
+    // this.httpService.post('/v1/user', registerPostData, (successful, resData, res) => {
+    //   let {code, msg, data} = resData;
+    //   if(code === 200){
+    //     this.toastService.toast(new ToastConfig(
+    //       ToastType.SUCCESS, 
+    //       '', 
+    //       msg, 
+    //       2000, 
+    //       () => {
+    //         this.router.navigate(['/app/home']);
+    //       })
+    //     );
+    //   } else {
+    //     this.toastService.toast(new ToastConfig(ToastType.WARNING, '', msg, 2000));
+    //   }
+    // }, (errorful, msg, err) => {
+    //   this.toastService.toast(new ToastConfig(ToastType.ERROR, '', msg, 2000));
+    // })
   }
 
 }

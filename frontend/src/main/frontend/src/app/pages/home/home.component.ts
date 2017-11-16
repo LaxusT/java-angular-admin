@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
+import { HttpService } from './../../services/http/http.service';
+
 import  { ModalService } from './../../components/modal/modal.service';
 import { TodoObjData, NeedReadObjData, NoticeObjData, CommonFuncData } from '../home/home-model';
 
@@ -236,10 +238,19 @@ export class HomeComponent implements OnInit {
    * 初始化
    */
   ngOnInit() {
-
+    console.log("this is home");
+    console.log(this.httpService);
+    this.httpService.get("/v1/movie/list?start=1&pageSize=10", {},  (successful, resData, res) => {
+      console.log(resData)
+    }, (errorful, msg, err) => {
+      console.log(msg)
+    })
   }
 
-  constructor(private modalService: ModalService,private ngbModalService: NgbModal){}
+  constructor(
+    private modalService: ModalService,
+    private ngbModalService: NgbModal,
+    private httpService: HttpService){}
 
 
   /**

@@ -10,10 +10,13 @@ import zjx.admin.project.data.res.Response;
 import zjx.admin.project.utils.ResultUtil;
 import zjx.admin.project.enums.res.UserEnum;
 
+import java.util.UUID;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * Created by michal on 5.3.2017.
+ * Created by zhaojinxin on 11.1.2017.
  */
 @RestController
 @RequestMapping("/v1")
@@ -43,10 +46,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Response login(@RequestBody User user){
+    public Response login(@RequestBody User user, HttpServletRequest request){
         if(userService.findLogin(user.getName(), user.getPassword()) == null){
             return ResultUtil.success(UserEnum.LOGIN_FAILEL.getCode(), UserEnum.LOGIN_FAILEL.getDesc(), null);
         }
+
+        HttpSession session = request.getSession();
+//        UUID uid = (UUID) session.getAttribute("uid");
+//        if (uid == null) {
+//            uid = UUID.randomUUID();
+//        }
+        session.setAttribute("uid", user.getName());
+        session.setMaxInactiveInterval(10);
         return ResultUtil.success(UserEnum.LOGIN_SUCCESS.getCode(), UserEnum.LOGIN_SUCCESS.getDesc(), null);
     }
 

@@ -2,7 +2,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { HttpModule, Http }    from '@angular/http';
+import { HttpModule, Http, XHRBackend, RequestOptions }    from '@angular/http';
 import { TranslateService } from '../../node_modules/ng2-translate';
 
 
@@ -18,7 +18,15 @@ import {ToastBoxComponent} from './components/toast/toast-box.component';
 import {ToastComponent} from './components/toast/toast.component';
 
 //http
-import { HttpService }   from './services/http/http.service';
+import { HttpService } from './services/http/http.service';
+import { HttpInterceptorService }   from './services/http/http.service2';
+
+ export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions){
+   let service = new HttpInterceptorService(xhrBackend, requestOptions);
+   return service;
+ }
+
+
 
 //storage
 import { LocalStorageService } from './services/storage/local-storage.service';
@@ -55,6 +63,12 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from "ng2-tra
     AppService,
     ToastService,
     HttpService,
+    // HttpInterceptorService,
+    // {
+    //   provide: Http,
+    //   useFactory: interceptorFactory,
+    //   deps: [XHRBackend, RequestOptions]
+    // },
     LocalStorageService,
     SessionStorageService,
     SelectivePreloadingStrategy,

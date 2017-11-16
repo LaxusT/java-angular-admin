@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import {
-    Http, Response, Headers, RequestOptions, URLSearchParams, RequestOptionsArgs, RequestMethod
+    Http, Response, Headers, ConnectionBackend, RequestOptions, URLSearchParams, RequestOptionsArgs, RequestMethod
 } from '@angular/http';
 import { Utils } from "./../../util/utils";
+import 'rxjs/Rx';
+
+import { Interceptor, InterceptedRequest, InterceptedResponse, InterceptorService } 
+from 'ng2-interceptors';
 
 import { environment } from './../../../environments/environment';
+import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
 /**
  * http服务
@@ -13,12 +19,24 @@ import { environment } from './../../../environments/environment';
 export class HttpService {
     private domain : string = '';
 
-    constructor(private http: Http) {
+    constructor(
+        private http: Http,
+        private router: Router) {
         this.domain = environment.production ? '' : 'http://127.0.0.1:8080';
     }
 
+    // constructor(private http: Http, backend: ConnectionBackend, defaultOptions: RequestOptions) {
+    //     super(backend, defaultOptions);
+    //     this.domain = environment.production ? '' : 'http://127.0.0.1:8080';
+    // }
+
     public request(url: string, options: RequestOptionsArgs, success: Function, error: Function): any {
         this.http.request(this.domain + url, options).subscribe(res => {
+            console.log(res.json())
+            if(res.json().code === 205){
+                this.router.navigate(['/login']);
+                return;
+            }
             success(res.ok, res.json(), res);
         }, err => {
             //处理请求失败
@@ -31,6 +49,7 @@ export class HttpService {
     public get(url: string, paramMap: any = null, success: Function=function(successful, data, res){}, error: Function=function(successful, msg, err){}): any {
         return this.request(url, new RequestOptions({
             method: RequestMethod.Get,
+            withCredentials: true,
             search: HttpService.buildURLSearchParams(paramMap)
         }), success, error);
     }
@@ -40,6 +59,7 @@ export class HttpService {
         return this.request(url, new RequestOptions({
             method: RequestMethod.Post,
             body: body,
+            withCredentials: true,
             headers: new Headers({
                 'Content-Type': 'application/json; charset=UTF-8'
             })
@@ -50,6 +70,7 @@ export class HttpService {
         return this.request(url, new RequestOptions({
             method: RequestMethod.Post,
             search: HttpService.buildURLSearchParams(paramMap).toString(),
+            withCredentials: true,
             headers: new Headers({
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             })
@@ -59,6 +80,7 @@ export class HttpService {
     public put(url: string, body: any = null, success: Function=function(successful, data, res){}, error: Function=function(successful, msg, err){}): any {
         return this.request(url, new RequestOptions({
             method: RequestMethod.Put,
+            withCredentials: true,
             body: body
         }), success, error);
     }
@@ -66,6 +88,7 @@ export class HttpService {
     public delete(url: string, paramMap: any = null, success: Function=function(successful, data, res){}, error: Function=function(successful, msg, err){}): any {
         return this.request(url, new RequestOptions({
             method: RequestMethod.Delete,
+            withCredentials: true,
             search: HttpService.buildURLSearchParams(paramMap).toString()
         }), success, error);
     }
@@ -73,6 +96,7 @@ export class HttpService {
     public patch(url: string, body: any = null, success: Function=function(successful, data, res){}, error: Function=function(successful, msg, err){}): any {
         return this.request(url, new RequestOptions({
             method: RequestMethod.Patch,
+            withCredentials: true,
             body: body
         }), success, error);
     }
@@ -80,6 +104,7 @@ export class HttpService {
     public head(url: string, paramMap: any = null, success: Function=function(successful, data, res){}, error: Function=function(successful, msg, err){}): any {
         return this.request(url, new RequestOptions({
             method: RequestMethod.Head,
+            withCredentials: true,
             search: HttpService.buildURLSearchParams(paramMap).toString()
         }), success, error);
     }
@@ -87,6 +112,7 @@ export class HttpService {
     public options(url: string, paramMap: any = null, success: Function=function(successful, data, res){}, error: Function=function(successful, msg, err){}): any {
         return this.request(url, new RequestOptions({
             method: RequestMethod.Options,
+            withCredentials: true,
             search: HttpService.buildURLSearchParams(paramMap).toString()
         }), success, error);
     }
@@ -128,9 +154,27 @@ export class HttpService {
         } else {
             msg = "未知错误，请检查网络";
         }
-
         return msg;
+    }
 
+    /**
+     * http返回值拦截器
+     */
+    public interceptAfter(response: InterceptedResponse): InterceptedResponse {
+        console.log('这是登录拦截器')
+        return response;
+    }
+
+    intercept(observable: Observable < Response > ): Observable < Response > {
+        console.log("after...");
+        return observable.catch((err, source) => {
+          if (err.status<200 || err.status>=300) {
+            alert('网络错误:'+err.status+' - ');
+            return Observable.empty();
+          } else {
+            return Observable.throw(err);
+          }
+        });
     }
 
    
