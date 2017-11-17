@@ -57,7 +57,7 @@ public class UserController {
 //            uid = UUID.randomUUID();
 //        }
         session.setAttribute("uid", user.getName());
-        session.setMaxInactiveInterval(10);
+        session.setMaxInactiveInterval(30 * 60);
         return ResultUtil.success(UserEnum.LOGIN_SUCCESS.getCode(), UserEnum.LOGIN_SUCCESS.getDesc(), null);
     }
 

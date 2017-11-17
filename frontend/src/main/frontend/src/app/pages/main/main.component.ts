@@ -37,6 +37,24 @@ export class MainComponent implements OnInit {
       positions: "Java工程师、打杂工程师",
     },
     menuData: [
+    // {
+    //   "id": "1",
+    //   "parentId": "0",
+    //   "name": "内容管理",
+    //   "keyWord": "qxgl",
+    //   "icon": 'fa-wrench',
+    //   "isExpend": false,
+    //   "children": [
+    //     {
+    //       "id": "2",
+    //       "parentId": "0",
+    //       "name": "电影列表",
+    //       "keyWord": "qxgl",
+    //       "icon": 'fa-table',
+    //       "url": '/app/pages/movieList'
+    //     }
+    //   ]
+    // },
     {
       "id": "20",
       "parentId": "0",

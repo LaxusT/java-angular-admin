@@ -10,7 +10,8 @@ const mainRoutes: Routes = [
     path: '',
     component: MainComponent,
     children: [
-      { path: 'home', loadChildren: 'app/pages/home/home.module#HomeModule' }
+      { path: 'home', loadChildren: 'app/pages/home/home.module#HomeModule' },
+      { path: 'movie', loadChildren: 'app/pages/movie/movie.module#MovieModule' }
       // { path: 'demo', loadChildren: 'app/business/demo/demo.module#DemoModule' },
       // { path: 'user', loadChildren: 'app/business/user/user.module#UserModule' },
       // { path: 'role', loadChildren: 'app/business/role/role.module#RoleModule' }

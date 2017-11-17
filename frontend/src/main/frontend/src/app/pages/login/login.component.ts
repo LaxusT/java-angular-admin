@@ -87,24 +87,24 @@ export class LoginComponent implements OnInit {
       password: null
     };
     Object.assign(registerPostData, this.loginForm.value);
-    // this.httpService.post('/v1/user', registerPostData, (successful, resData, res) => {
-    //   let {code, msg, data} = resData;
-    //   if(code === 200){
-    //     this.toastService.toast(new ToastConfig(
-    //       ToastType.SUCCESS, 
-    //       '', 
-    //       msg, 
-    //       2000, 
-    //       () => {
-    //         this.router.navigate(['/app/home']);
-    //       })
-    //     );
-    //   } else {
-    //     this.toastService.toast(new ToastConfig(ToastType.WARNING, '', msg, 2000));
-    //   }
-    // }, (errorful, msg, err) => {
-    //   this.toastService.toast(new ToastConfig(ToastType.ERROR, '', msg, 2000));
-    // })
+    this.httpService.post('/v1/user', registerPostData, (successful, resData, res) => {
+      let {code, msg, data} = resData;
+      if(code === 200){
+        this.toastService.toast(new ToastConfig(
+          ToastType.SUCCESS, 
+          '', 
+          msg, 
+          2000, 
+          () => {
+            this.router.navigate(['/app/home']);
+          })
+        );
+      } else {
+        this.toastService.toast(new ToastConfig(ToastType.WARNING, '', msg, 2000));
+      }
+    }, (errorful, msg, err) => {
+      this.toastService.toast(new ToastConfig(ToastType.ERROR, '', msg, 2000));
+    })
   }
 
 }
