@@ -23,11 +23,11 @@ public class MyInterceptor1 implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         HttpSession session = request.getSession();
-        if(session.getAttribute("uid") == null){
-            response.setHeader("Content-type", "application/json;charset=UTF-8");
-            response.getWriter().write("{\"code\":205, \"message\": \"您尚未登陆,请登陆!\"}");
-            return false;
-        }
+//        if(session.getAttribute("uid") == null){
+//            response.setHeader("Content-type", "application/json;charset=UTF-8");
+//            response.getWriter().write("{\"code\":205, \"message\": \"您尚未登陆,请登陆!\"}");
+//            return false;
+//        }
 
         System.out.println(">>>MyInterceptor1>>>>>>>在请求处理之前进行调用（Controller方法调用之前）");
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
